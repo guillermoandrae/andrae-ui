@@ -1,0 +1,27 @@
+{
+  "name": "andrae",
+  "homepage": "https://github.com/guillermoandrae/andrae",
+  "authors": [
+    "Guillermo A. Fisher <guillermoandraefisher@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datatables": "^1.10.15",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "bootstrap": "^3.3.7",
+    "jquery-easing": "*",
+    "moment": "^2.18.1"
+  }
+}

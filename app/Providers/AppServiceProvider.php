@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Repositories\DynamoDb\PostRepository;
-use App\Repositories\DynamoDb\UserRepository;
+use App\Repositories\PostRepository;
 use App\Repositories\PostRepositoryInterface;
-use App\Repositories\UserRepositoryInterface;
-use Aws\DynamoDb\DynamoDbClient;
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,5 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(Client::class, function () {
+            return new Client([
+                'base_uri' => 'https://api.guillermoandraefisher.com',
+                'timeout' => 5
+            ]);
+        });
+        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
     }
 }

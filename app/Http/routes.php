@@ -11,12 +11,6 @@
 |
 */
 
-$app->get('/', function () {
-    return redirect('/home');
-});
-
-// Portal Routes
-$app->get('/home', 'IndexController@index');
+$app->get('/', 'IndexController@index');
 $app->get('/post/{id}', 'PostController@index');
 $app->get('/post/{id}/{slug}', 'PostController@index');
-

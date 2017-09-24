@@ -1,6 +1,6 @@
 var Timeline = function () {
 
-    var apiUrl = "/posts",
+    var apiUrl = "https://api.guillermoandraefisher.com/posts",
         dataSet = [],
         columns = [
             { title: "Date" },

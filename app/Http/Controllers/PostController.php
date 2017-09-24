@@ -2,25 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\DateHelper;
-use App\Repositories\PostRepositoryInterface;
+use App\Concerns\PostRepositoryAwareTrait;
 use Illuminate\View\View;
 use Laravel\Lumen\Routing\Controller;
 
 class PostController extends Controller
 {
-    /**
-     * @var PostRepositoryInterface
-     */
-    protected $postRepository;
-
-    /**
-     * @param PostRepositoryInterface $postRepository
-     */
-    public function __construct(PostRepositoryInterface $postRepository)
-    {
-        $this->postRepository = $postRepository;
-    }
+    use PostRepositoryAwareTrait;
 
     /**
      * @param integer $id
@@ -29,22 +17,9 @@ class PostController extends Controller
     public function index($id)
     {
         $post = $this->postRepository->findById($id);
-        if (!$post->getId()) {
+        if (!isset($post['id']) || is_null($post['id'])) {
             abort(404);
         }
-        return view('post', [
-            'post' => [
-                'uri'           => sprintf('post/%s/%s', $id, $post->getSlug()),
-                'title'         => $post->getTitle(),
-                'description'   => $post->getDescription(),
-                'image'         => explode(',', $post->getThumbnailUrl())[0],
-                'datetime'      => $post->getCreatedAt()->format(DATE_ATOM),
-                'time'          => $post->getCreatedAt()->format(DATE_RSS),
-                'summary'       => $post->getSummary(),
-                'body'          => $post->getBody(),
-                'action'        => $post->getAction(),
-                'source'        => strtolower($post->getSource())
-            ]
-        ]);
+        return view('post', ['post' => $post]);
     }
 }

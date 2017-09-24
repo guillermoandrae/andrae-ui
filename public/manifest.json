@@ -1,8 +1,12 @@
 {
     "name": "The life and times of Guillermo A. Fisher",
+    "short_name": "Guillermo",
     "description": "The life and times of Guillermo A. Fisher -- an aggregation of social media activity.",
     "start_url": "/",
     "background_color": "#000000",
+    "theme_color": "#000000",
+    "display": "standalone",
+    "orientation": "portrait",
     "icons": [{
         "src": "assets/img/gravatar.png",
         "sizes": "192x192",

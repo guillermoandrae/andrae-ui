@@ -2,35 +2,50 @@
 
 namespace App\Repositories;
 
-use App\Concerns\GuzzleClientAwareTrait;
-use Psr\Http\Message\ResponseInterface;
+use App\Http\Client\ClientInterface;
+use Illuminate\Support\Facades\Cache;
 
 class PostRepository implements PostRepositoryInterface
 {
-    use GuzzleClientAwareTrait;
+    private $client;
+
+    public function __construct(ClientInterface $client)
+    {
+        $this->client = $client;
+    }
 
     public function findLatest(): array
     {
-        $posts = $this->parseResponse($this->getClient()->get('/posts', [
-            'query' => [
-                'limit' => 1
-            ]
-        ]));
+        $client = $this->getClient();
+        $posts = Cache::remember(
+            'posts-find-latest',
+            60,
+            function () use ($client) {
+                return $client->get('/posts', [
+                    'query' => [
+                        'limit' => 1
+                    ]
+                ]);
+            }
+        );
         return $this->translate(array_pop($posts));
     }
 
     public function findById($id): array
     {
-        return $this->translate($this->parseResponse($this->getClient()->get(sprintf('/posts/%s', $id))));
+        $client = $this->getClient();
+        $post = Cache::rememberForever(
+            'posts-find-by-id',
+            function () use ($client, $id) {
+                return $client->get(sprintf('/posts/%s', $id));
+            }
+        );
+        return $this->translate($post);
     }
 
-    private function parseResponse(ResponseInterface $response): array
+    public function getClient(): ClientInterface
     {
-        $body = json_decode($response->getBody()->getContents(), true);
-        if (isset($body['data'])) {
-            return $body['data'];
-        }
-        return [];
+        return $this->client;
     }
 
     private function translate(array $post)

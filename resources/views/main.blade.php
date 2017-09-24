@@ -18,8 +18,8 @@
     <meta property="og:description" content="@yield('description')">
     <meta property="og:image" content="@yield('image')">
 
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="apple-touch-icon" href="/assets/img/icon.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/assets/img/gravatar.png">
 
     <!-- Bootstrap CSS -->
     <link href="/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -96,7 +96,6 @@
 
         ga('create', 'UA-7964669-2', 'auto');
         ga('send', 'pageview');
-
     </script>
 
     <!-- jQuery -->
